@@ -1,0 +1,743 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, maximum-scale=1.0">
+  <title>aniversário de raquel</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    :root {
+      --bg: #0b141a;
+      --header: #1f2c34;
+      --header-border: #2a3b45;
+      --incoming: #202c33;
+      --outgoing: #005c4b;
+      --text: #e9edef;
+      --text-secondary: #8696a0;
+      --accent: #53bdeb;
+      --green: #00a884;
+      --border: #2a3942;
+      --input-bg: #2a3942;
+    }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      background: #111;
+      color: var(--text);
+      height: 100vh;
+      overflow: hidden;
+      display: flex;
+      justify-content: center;
+    }
+    .app {
+      width: 100%;
+      max-width: 480px;
+      height: 100vh;
+      background: var(--bg);
+      display: flex;
+      flex-direction: column;
+      position: relative;
+      box-shadow: 0 0 30px rgba(0,0,0,0.6);
+    }
+
+    /* HEADER */
+    .header {
+      background: var(--header);
+      padding: 8px 12px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      border-bottom: 1px solid var(--header-border);
+      z-index: 10;
+      min-height: 56px;
+    }
+    .back-btn {
+      width: 24px; height: 24px;
+      cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .back-btn svg { width: 20px; height: 20px; fill: #d1d7db; }
+    .group-avatar {
+      width: 40px; height: 40px;
+      flex-shrink: 0;
+      cursor: pointer;
+      position: relative;
+    }
+    .group-avatar .g-img {
+      width: 100%; height: 100%;
+      border-radius: 50%;
+      overflow: hidden;
+      position: relative;
+      background: #374248;
+    }
+    .group-avatar .g-img img {
+      width: 100%; height: 100%;
+      object-fit: cover;
+      position: absolute;
+    }
+    .group-avatar .g-img .g-img-1 {
+      width: 55%; height: 55%;
+      top: 0; left: 0;
+      border-radius: 50% 0 0 0;
+      border: 1.5px solid var(--header);
+    }
+    .group-avatar .g-img .g-img-2 {
+      width: 55%; height: 55%;
+      top: 0; right: 0;
+      border-radius: 0 50% 0 0;
+      border: 1.5px solid var(--header);
+    }
+    .group-avatar .g-img .g-img-3 {
+      width: 55%; height: 55%;
+      bottom: 0; left: 0;
+      border-radius: 0 0 0 50%;
+      border: 1.5px solid var(--header);
+    }
+    .group-avatar .g-img .g-img-4 {
+      width: 55%; height: 55%;
+      bottom: 0; right: 0;
+      border-radius: 0 0 50% 0;
+      border: 1.5px solid var(--header);
+    }
+    .group-avatar .g-count {
+      position: absolute;
+      bottom: -2px; right: -2px;
+      background: var(--green);
+      color: #fff;
+      font-size: 9px;
+      font-weight: 700;
+      width: 16px; height: 16px;
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      border: 2px solid var(--header);
+    }
+    .header-info {
+      flex: 1;
+      min-width: 0;
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+    .header-info h1 {
+      font-size: 16px;
+      font-weight: 500;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      color: #e9edef;
+      line-height: 1.3;
+    }
+    .header-info .status {
+      font-size: 12px;
+      color: var(--text-secondary);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      line-height: 1.3;
+    }
+    .header-info .status.online { color: var(--green); }
+    .header-icons {
+      display: flex;
+      align-items: center;
+      gap: 18px;
+      color: #aebac1;
+      padding-right: 4px;
+    }
+    .header-icons svg {
+      width: 22px; height: 22px;
+      fill: currentColor;
+      cursor: pointer;
+    }
+
+    /* CHAT */
+    .chat {
+      flex: 1;
+      overflow-y: auto;
+      padding: 20px 16px 10px;
+      background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAYAAACNiR0NAAAABmJLR0QA/wD/AP+gvaeTAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAB3RJTUUH5QYMCg0xP/C0/AAAAB1pVFh0Q29tbWVudAAAAAAAQ3JlYXRlZCB3aXRoIEdJTVBkLmUHAAAASElEQVQ4y2NgYGD4z0ABYBxVNKpoVNGoolFE0f///w/E+4F4PxDvB+L9QLwfiPcD8X4g3g/E+4F4PxDvB+L9QLwfiPcD8X4g3g/E+4F4PwMA5lI4G3hQ+/AAAAAASUVORK5CYII=");
+      background-repeat: repeat;
+      background-color: #0b141a;
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+    .chat::-webkit-scrollbar { width: 6px; }
+    .chat::-webkit-scrollbar-thumb { background: #374248; border-radius: 3px; }
+
+    .date-label {
+      align-self: center;
+      background: #1e2a30;
+      color: #8696a0;
+      font-size: 11px;
+      padding: 5px 12px;
+      border-radius: 8px;
+      margin: 8px 0 12px;
+      font-weight: 500;
+      letter-spacing: 0.3px;
+    }
+
+    .msg-wrapper {
+      display: flex;
+      align-items: flex-end;
+      gap: 6px;
+      margin-bottom: 6px;
+      animation: msgIn 0.35s ease-out;
+    }
+    @keyframes msgIn {
+      from { opacity: 0; transform: translateY(12px) scale(0.96); }
+      to { opacity: 1; transform: translateY(0) scale(1); }
+    }
+    .msg-avatar {
+      width: 28px; height: 28px;
+      border-radius: 50%;
+      overflow: hidden;
+      flex-shrink: 0;
+      border: 1px solid #2a3942;
+      background: #374248;
+    }
+    .msg-avatar img { width: 100%; height: 100%; object-fit: cover; }
+    .msg-bubble {
+      max-width: 75%;
+      background: var(--incoming);
+      border-radius: 8px;
+      padding: 6px 8px 4px 8px;
+      position: relative;
+      box-shadow: 0 1px 0.5px rgba(0,0,0,0.13);
+    }
+    .msg-bubble::before {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: -8px;
+      width: 12px;
+      height: 19px;
+      background: var(--incoming);
+      border-bottom-right-radius: 15px;
+      clip-path: polygon(0 0, 100% 100%, 100% 0);
+    }
+    .msg-name {
+      font-size: 12.5px;
+      color: var(--accent);
+      font-weight: 500;
+      margin-bottom: 4px;
+      line-height: 1.2;
+    }
+    .msg-audio {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      min-width: 220px;
+    }
+    .play-btn {
+      width: 34px; height: 34px;
+      border-radius: 50%;
+      background: #374248;
+      display: flex; align-items: center; justify-content: center;
+      cursor: pointer;
+      flex-shrink: 0;
+      transition: background 0.2s;
+      border: none;
+      outline: none;
+    }
+    .play-btn:hover { background: #45525a; }
+    .play-btn:active { transform: scale(0.95); }
+    .play-btn svg { width: 14px; height: 14px; fill: #e9edef; }
+    .play-btn .pause-icon { display: none; }
+    .play-btn.playing .play-icon { display: none; }
+    .play-btn.playing .pause-icon { display: block; }
+    .waveform {
+      flex: 1;
+      height: 28px;
+      display: flex;
+      align-items: center;
+      gap: 2.5px;
+      padding: 0 2px;
+    }
+    .waveform span {
+      width: 2.5px;
+      background: #374248;
+      border-radius: 1px;
+      transition: height 0.2s, background 0.2s;
+    }
+    .waveform.playing span { background: var(--green); }
+    .msg-meta {
+      display: flex;
+      justify-content: flex-end;
+      align-items: center;
+      gap: 4px;
+      margin-top: 2px;
+      padding-left: 40px;
+    }
+    .msg-meta .duration {
+      font-size: 11px;
+      color: var(--text-secondary);
+      font-variant-numeric: tabular-nums;
+    }
+    .msg-meta .time {
+      font-size: 10px;
+      color: var(--text-secondary);
+    }
+    .msg-meta .check {
+      display: flex;
+      align-items: center;
+    }
+    .msg-meta .check svg { width: 14px; height: 14px; fill: var(--text-secondary); }
+
+    /* TYPING */
+    .typing-wrapper {
+      display: flex;
+      align-items: flex-end;
+      gap: 6px;
+      margin-bottom: 6px;
+      animation: msgIn 0.3s ease-out;
+    }
+    .typing-bubble {
+      background: var(--incoming);
+      border-radius: 16px 16px 16px 0;
+      padding: 12px 16px;
+      display: flex;
+      align-items: center;
+      gap: 3px;
+      min-width: 60px;
+      min-height: 40px;
+    }
+    .typing-bubble span {
+      width: 7px; height: 7px;
+      background: #8696a0;
+      border-radius: 50%;
+      animation: typingBounce 1.4s infinite ease-in-out both;
+    }
+    .typing-bubble span:nth-child(1) { animation-delay: -0.32s; }
+    .typing-bubble span:nth-child(2) { animation-delay: -0.16s; }
+    @keyframes typingBounce {
+      0%, 80%, 100% { transform: scale(0.6); opacity: 0.5; }
+      40% { transform: scale(1); opacity: 1; }
+    }
+    .typing-label {
+      font-size: 11px;
+      color: var(--text-secondary);
+      margin-bottom: 2px;
+      margin-left: 34px;
+    }
+
+    /* INPUT */
+    .input-bar {
+      background: var(--header);
+      padding: 8px 10px;
+      display: flex;
+      align-items: flex-end;
+      gap: 8px;
+      border-top: 1px solid var(--header-border);
+      min-height: 56px;
+    }
+    .input-bar .icon-btn {
+      width: 28px; height: 28px;
+      display: flex; align-items: center; justify-content: center;
+      color: #8696a0;
+      cursor: pointer;
+      flex-shrink: 0;
+      margin-bottom: 2px;
+    }
+    .input-bar .icon-btn svg { width: 22px; height: 22px; fill: currentColor; }
+    .input-box {
+      flex: 1;
+      background: var(--input-bg);
+      border-radius: 20px;
+      padding: 9px 14px;
+      color: var(--text);
+      font-size: 15px;
+      line-height: 20px;
+      min-height: 40px;
+      display: flex;
+      align-items: center;
+    }
+    .input-box .placeholder {
+      color: #8696a0;
+      font-size: 15px;
+    }
+    .input-bar .mic-btn {
+      width: 34px; height: 34px;
+      border-radius: 50%;
+      background: var(--green);
+      display: flex; align-items: center; justify-content: center;
+      cursor: pointer;
+      flex-shrink: 0;
+      margin-bottom: 2px;
+      transition: transform 0.1s;
+    }
+    .input-bar .mic-btn:active { transform: scale(0.92); }
+    .input-bar .mic-btn svg { width: 18px; height: 18px; fill: #fff; }
+
+    /* DRAWER */
+    .overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.5);
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.25s ease;
+      z-index: 200;
+    }
+    .overlay.open { opacity: 1; pointer-events: all; }
+    .drawer {
+      position: fixed;
+      top: 0; right: 0;
+      width: 100%; max-width: 380px;
+      height: 100%;
+      background: var(--bg);
+      transform: translateX(100%);
+      transition: transform 0.3s cubic-bezier(0.4,0,0.2,1);
+      z-index: 201;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+    .drawer.open { transform: translateX(0); }
+    .drawer-header {
+      background: var(--header);
+      padding: 12px 16px;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      border-bottom: 1px solid var(--header-border);
+      min-height: 56px;
+    }
+    .drawer-header .close-btn {
+      width: 24px; height: 24px;
+      cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .drawer-header .close-btn svg { width: 20px; height: 20px; fill: #d1d7db; }
+    .drawer-header h2 { font-size: 17px; font-weight: 500; color: #e9edef; }
+    .drawer-body { flex: 1; overflow-y: auto; }
+    .drawer-body::-webkit-scrollbar { width: 6px; }
+    .drawer-body::-webkit-scrollbar-thumb { background: #374248; border-radius: 3px; }
+
+    .group-banner {
+      width: 100%;
+      height: 200px;
+      background: #1f2c34;
+      position: relative;
+      overflow: hidden;
+    }
+    .group-banner .banner-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      grid-template-rows: 1fr 1fr;
+      width: 100%; height: 100%;
+      gap: 2px;
+      background: var(--border);
+    }
+    .group-banner .banner-grid img {
+      width: 100%; height: 100%;
+      object-fit: cover;
+      background: #374248;
+    }
+    .group-info {
+      padding: 16px 20px;
+      border-bottom: 1px solid var(--border);
+    }
+    .group-info h3 { font-size: 20px; font-weight: 500; color: #e9edef; margin-bottom: 4px; }
+    .group-info p { font-size: 13px; color: var(--text-secondary); }
+
+    .section-title {
+      padding: 14px 20px 6px;
+      font-size: 13px;
+      color: var(--text-secondary);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      font-weight: 500;
+    }
+    .participant-row {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      padding: 10px 20px;
+      cursor: pointer;
+      transition: background 0.15s;
+    }
+    .participant-row:hover { background: rgba(255,255,255,0.04); }
+    .participant-row img {
+      width: 48px; height: 48px;
+      border-radius: 50%;
+      object-fit: cover;
+      background: #374248;
+      flex-shrink: 0;
+    }
+    .participant-row .p-info { flex: 1; min-width: 0; }
+    .participant-row .p-info .p-name { font-size: 16px; color: #e9edef; font-weight: 400; }
+    .participant-row .p-info .p-sub { font-size: 13px; color: var(--text-secondary); margin-top: 2px; }
+    .participant-row .p-status {
+      font-size: 12px;
+      color: var(--green);
+      font-weight: 500;
+      flex-shrink: 0;
+    }
+
+    .hidden { display: none !important; }
+  </style>
+</head>
+<body>
+  <div class="app">
+    <div class="header">
+      <div class="back-btn">
+        <svg viewBox="0 0 24 24"><path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/></svg>
+      </div>
+      <div class="group-avatar" onclick="openDrawer()">
+        <div class="g-img" id="groupAvatar"></div>
+      </div>
+      <div class="header-info" onclick="openDrawer()">
+        <h1>aniversário de raquel</h1>
+        <p class="status" id="statusText">clique para ver participantes</p>
+      </div>
+      <div class="header-icons">
+        <svg viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27A6.471 6.471 0 0 0 16 9.5 6.5 6.5 0 1 0 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg>
+        <svg viewBox="0 0 24 24"><path d="M12 8c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm0 2c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm0 6c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z"/></svg>
+      </div>
+    </div>
+
+    <div class="chat" id="chat">
+      <div class="date-label">HOJE</div>
+    </div>
+
+    <div class="input-bar">
+      <div class="icon-btn">
+        <svg viewBox="0 0 24 24"><path d="M16.5 6v11.5c0 2.21-1.79 4-4 4s-4-1.79-4-4V5a2.5 2.5 0 0 1 5 0v10.5c0 .55-.45 1-1 1s-1-.45-1-1V6H10v9.5a2.5 2.5 0 0 0 5 0V5c0-2.21-1.79-4-4-4S7 2.79 7 5v12.5c0 3.04 2.46 5.5 5.5 5.5s5.5-2.46 5.5-5.5V6h-1.5z"/></svg>
+      </div>
+      <div class="input-box">
+        <span class="placeholder">Mensagem</span>
+      </div>
+      <div class="icon-btn">
+        <svg viewBox="0 0 24 24"><path d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8zm3.5-9c.83 0 1.5-.67 1.5-1.5S16.33 8 15.5 8 14 8.67 14 9.5s.67 1.5 1.5 1.5zm-7 0c.83 0 1.5-.67 1.5-1.5S9.33 8 8.5 8 7 8.67 7 9.5 7.67 11 8.5 11zm3.5 6.5c2.33 0 4.31-1.46 5.11-3.5H6.89c.8 2.04 2.78 3.5 5.11 3.5z"/></svg>
+      </div>
+      <div class="mic-btn">
+        <svg viewBox="0 0 24 24"><path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3zM17 11c0 2.76-2.24 5-5 5s-5-2.24-5-5H5c0 3.53 2.61 6.43 6 6.92V21h2v-3.08c3.39-.49 6-3.39 6-6.92h-2z"/></svg>
+      </div>
+    </div>
+  </div>
+
+  <div class="overlay" id="overlay" onclick="closeDrawer()"></div>
+  <div class="drawer" id="drawer">
+    <div class="drawer-header">
+      <div class="close-btn" onclick="closeDrawer()">
+        <svg viewBox="0 0 24 24"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+      </div>
+      <h2>Info. do grupo</h2>
+    </div>
+    <div class="drawer-body" id="drawerBody"></div>
+  </div>
+
+  <script>
+    let participants = [];
+    let currentPlaying = null;
+    const chat = document.getElementById('chat');
+    const statusText = document.getElementById('statusText');
+
+    async function loadConfig() {
+      try {
+        const res = await fetch('config.json');
+        participants = await res.json();
+        if (!Array.isArray(participants) || participants.length === 0) throw new Error('vazio');
+        buildGroupAvatar();
+        buildDrawer();
+        updateStatus();
+        renderFirstMessage();
+      } catch (e) {
+        statusText.textContent = 'Erro ao carregar config.json';
+        console.error(e);
+      }
+    }
+
+    function buildGroupAvatar() {
+      const container = document.getElementById('groupAvatar');
+      container.innerHTML = '';
+      const max = Math.min(participants.length, 4);
+      for (let i = 0; i < max; i++) {
+        const img = document.createElement('img');
+        img.src = participants[i].icon;
+        img.className = `g-img-${i+1}`;
+        img.onerror = () => { img.style.display = 'none'; };
+        container.appendChild(img);
+      }
+      if (participants.length > 4) {
+        const badge = document.createElement('div');
+        badge.className = 'g-count';
+        badge.textContent = '+' + (participants.length - 4);
+        container.parentElement.appendChild(badge);
+      }
+    }
+
+    function buildDrawer() {
+      const body = document.getElementById('drawerBody');
+      const today = new Date().toLocaleDateString('pt-BR');
+      let html = '<div class="group-banner"><div class="banner-grid">';
+      participants.forEach(p => {
+        html += `<img src="${p.icon}" onerror="this.style.display='none'">`;
+      });
+      html += '</div></div>';
+      html += `<div class="group-info"><h3>aniversário de raquel</h3><p>Grupo · ${participants.length} participantes · Criado em ${today}</p></div>`;
+      html += `<div class="section-title">${participants.length} participantes</div>`;
+      participants.forEach(p => {
+        const name = p.name.replace(/^~\s*/, '');
+        html += `
+          <div class="participant-row">
+            <img src="${p.icon}" onerror="this.src='data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%2248%22 height=%2248%22><rect width=%2248%22 height=%2248%22 fill=%22%23374248%22/></svg>'">
+            <div class="p-info">
+              <div class="p-name">${name}</div>
+              <div class="p-sub">~ ${name.toLowerCase()}</div>
+            </div>
+            <div class="p-status">online</div>
+          </div>`;
+      });
+      body.innerHTML = html;
+    }
+
+    function updateStatus() {
+      const names = participants.map(p => p.name.replace(/^~\s*/, '').split(' ')[0]);
+      statusText.innerHTML = names.join(', ') + ' <span style="color:var(--green)">online</span>';
+      statusText.classList.add('online');
+    }
+
+    function createWaveform() {
+      let bars = '';
+      for (let i = 0; i < 22; i++) {
+        const h = Math.floor(Math.random() * 14) + 4;
+        bars += `<span style="height:${h}px"></span>`;
+      }
+      return bars;
+    }
+
+    function renderAudioMessage(person, index) {
+      const name = person.name.replace(/^~\s*/, '');
+      const wrapper = document.createElement('div');
+      wrapper.className = 'msg-wrapper';
+      wrapper.id = `msg-${index}`;
+      wrapper.innerHTML = `
+        <div class="msg-avatar"><img src="${person.icon}" onerror="this.style.display='none'"></div>
+        <div class="msg-bubble">
+          <div class="msg-name">${name}</div>
+          <div class="msg-audio">
+            <button class="play-btn" id="btn-${index}" onclick="togglePlay(${index})">
+              <svg class="play-icon" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+              <svg class="pause-icon" viewBox="0 0 24 24"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>
+            </button>
+            <div class="waveform" id="wave-${index}">${createWaveform()}</div>
+          </div>
+          <div class="msg-meta">
+            <span class="duration" id="dur-${index}">0:00</span>
+            <span class="time">${new Date().toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit'})}</span>
+            <span class="check"><svg viewBox="0 0 24 24"><path d="M18 7l-1.41-1.41-6.34 6.34 1.41 1.41L18 7zm4.24-1.41L6.34 21.24l-4.24-4.24 1.41-1.41 2.83 2.83L20.66 5.17l1.58 1.42zM2.34 12.83l4.24 4.24 1.41-1.41-4.24-4.24-1.41 1.41z"/></svg></span>
+          </div>
+        </div>
+        <audio id="audio-${index}" src="${person.audio}" preload="metadata"></audio>
+      `;
+      chat.appendChild(wrapper);
+      chat.scrollTop = chat.scrollHeight;
+
+      const audio = document.getElementById(`audio-${index}`);
+      audio.addEventListener('loadedmetadata', () => {
+        document.getElementById(`dur-${index}`).textContent = fmt(audio.duration);
+      });
+      audio.addEventListener('ended', () => onAudioEnded(index));
+      audio.addEventListener('timeupdate', () => {
+        document.getElementById(`dur-${index}`).textContent = fmt(audio.currentTime);
+      });
+      audio.addEventListener('error', () => {
+        document.getElementById(`dur-${index}`).textContent = 'erro';
+        document.getElementById(`dur-${index}`).style.color = '#ef5350';
+      });
+    }
+
+    function togglePlay(index) {
+      const audio = document.getElementById(`audio-${index}`);
+      const btn = document.getElementById(`btn-${index}`);
+      const wave = document.getElementById(`wave-${index}`);
+      if (!audio) return;
+
+      if (currentPlaying && currentPlaying !== audio) {
+        currentPlaying.pause();
+        currentPlaying.currentTime = 0;
+        const prevIdx = currentPlaying.id.replace('audio-','');
+        const prevBtn = document.getElementById(`btn-${prevIdx}`);
+        const prevWave = document.getElementById(`wave-${prevIdx}`);
+        if (prevBtn) prevBtn.classList.remove('playing');
+        if (prevWave) prevWave.classList.remove('playing');
+      }
+
+      if (audio.paused) {
+        audio.play().then(() => {
+          btn.classList.add('playing');
+          wave.classList.add('playing');
+          currentPlaying = audio;
+          statusText.innerHTML = 'ouvindo áudio...';
+        }).catch(err => {
+          console.error('Erro ao tocar:', err);
+          statusText.innerHTML = '<span style="color:#ef5350">Erro ao tocar áudio</span>';
+        });
+      } else {
+        audio.pause();
+        btn.classList.remove('playing');
+        wave.classList.remove('playing');
+        currentPlaying = null;
+        updateStatus();
+      }
+    }
+
+    function onAudioEnded(index) {
+      const btn = document.getElementById(`btn-${index}`);
+      const wave = document.getElementById(`wave-${index}`);
+      if (btn) btn.classList.remove('playing');
+      if (wave) wave.classList.remove('playing');
+      currentPlaying = null;
+      updateStatus();
+      if (index + 1 < participants.length) showTyping(index + 1);
+    }
+
+    function showTyping(nextIndex) {
+      const name = participants[nextIndex].name.replace(/^~\s*/, '').split(' ')[0];
+      statusText.innerHTML = name + ' está gravando áudio...';
+
+      const wrapper = document.createElement('div');
+      wrapper.className = 'typing-wrapper';
+      wrapper.id = 'typing-msg';
+      wrapper.innerHTML = `
+        <div class="msg-avatar"><img src="${participants[nextIndex].icon}" onerror="this.style.display='none'"></div>
+        <div>
+          <div class="typing-label">${name}</div>
+          <div class="typing-bubble"><span></span><span></span><span></span></div>
+        </div>
+      `;
+      chat.appendChild(wrapper);
+      chat.scrollTop = chat.scrollHeight;
+
+      setTimeout(() => {
+        const el = document.getElementById('typing-msg');
+        if (el) el.remove();
+        renderAudioMessage(participants[nextIndex], nextIndex);
+      }, 2800 + Math.random() * 1200);
+    }
+
+    function renderFirstMessage() {
+      if (participants.length > 0) renderAudioMessage(participants[0], 0);
+    }
+
+    function fmt(s) {
+      if (!s || isNaN(s)) return '0:00';
+      const m = Math.floor(s / 60);
+      const sec = Math.floor(s % 60);
+      return `${m}:${sec.toString().padStart(2, '0')}`;
+    }
+
+    function openDrawer() {
+      document.getElementById('overlay').classList.add('open');
+      document.getElementById('drawer').classList.add('open');
+    }
+    function closeDrawer() {
+      document.getElementById('overlay').classList.remove('open');
+      document.getElementById('drawer').classList.remove('open');
+    }
+
+    loadConfig();
+  </script>
+</body>
+</html>
